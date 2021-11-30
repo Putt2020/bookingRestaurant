@@ -20,3 +20,17 @@
     = f.number_field :people_amount
   .actions
     = f.submit 'Save'
+
+-# frozen_string_literal: true
+= simple_form_for(@appointment) do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+  .form-inputs
+    = f.association :user, :value => @user.id
+    = f.association :table, :value => @table.id
+    = f.input :start_time, :value => DateTime.current
+    = f.input :people_amount
+
+  .form-actions
+    = f.button :submit, 'Create',class:"btn btn-primary mt-2"

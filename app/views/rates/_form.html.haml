@@ -1,19 +1,12 @@
-= form_for @rate do |f|
-  - if @rate.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@rate.errors.count, "error")} prohibited this rate from being saved:"
-      %ul
-        - @rate.errors.full_messages.each do |message|
-          %li= message
+-# frozen_string_literal: true
+= simple_form_for(@rate) do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
-  .field
-    = f.label :rate_score
-    = f.number_field :rate_score
-  .field
-    = f.label :user
-    = f.text_field :user
-  .field
-    = f.label :restaurant
-    = f.text_field :restaurant
-  .actions
-    = f.submit 'Save'
+  .form-inputs
+    = f.input :rate_score
+    = f.association :user, :value => @user.id
+    = f.association :restaurant, :value => @restaurant.id
+
+  .form-actions
+    = f.button :submit, 'Create',class:"btn btn-primary mt-2"

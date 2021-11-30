@@ -1,0 +1,45 @@
+%head
+  :css
+    body {
+      background-image: url("https://securecdn.pymnts.com/wp-content/uploads/2018/02/restaurant-reservation-platform-e1519424445312.jpg");
+      background-color: #ffe4c4;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+    .mainContent {
+      background-color: #ffffff;
+      margin-top: 20px;
+      padding: 10px;
+      width: 50%;
+      max-width: 750px;
+    }
+
+%body
+  .mainContent.mx-auto
+    %h1 Registration
+
+    -# frozen_string_literal: true
+    = simple_form_for @user, url: "/register", method: :post do |f|
+      = f.error_notification
+      = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+      .form-inputs
+        .row
+          .col-sm-12.col-md-8.col-lg-6.col-xl-5
+            = f.input :email
+        .row.mt-2
+          .col-sm-12.col-md-8.col-lg-6.col-xl-5
+            = f.input :name
+        .row.mt-2
+          .col-sm-12.col-md-8.col-lg-6.col-xl-5
+            = f.input :password
+        .row.mt-2
+          .col-sm-12.col-md-8.col-lg-6.col-xl-5
+            = f.input :password_confirmation
+
+      .row
+        .col-sm-8.col-md-6.col-lg-5.col-xl-4.mt-2 
+          .form-actions
+            = f.button :submit, 'Create Account', class:"btn btn-primary mt-2"
+        .col.mt-2
+          = link_to 'Cancel', '/main', class:"btn btn-primary mt-2"

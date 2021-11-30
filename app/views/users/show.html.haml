@@ -4,11 +4,11 @@
   %b Email:
   = @user.email
 %p
+  %b Name:
+  = @user.name
+%p
   %b Password digest:
   = @user.password_digest
-%p
-  %b Display name:
-  = @user.display_name
 
 = link_to 'Edit', edit_user_path(@user)
 \|

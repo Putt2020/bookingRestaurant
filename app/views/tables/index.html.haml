@@ -15,7 +15,7 @@
       %tr
         %td= table.customer_cap
         %td= table.table_number
-        %td= table.restaurant
+        %td= table.restaurant.name
         %td= link_to 'Show', table
         %td= link_to 'Edit', edit_table_path(table)
         %td= link_to 'Destroy', table, method: :delete, data: { confirm: 'Are you sure?' }

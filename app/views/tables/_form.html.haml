@@ -1,19 +1,13 @@
-= form_for @table do |f|
-  - if @table.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@table.errors.count, "error")} prohibited this table from being saved:"
-      %ul
-        - @table.errors.full_messages.each do |message|
-          %li= message
+-# frozen_string_literal: true
+= simple_form_for(@table) do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
-  .field
-    = f.label :customer_cap
-    = f.number_field :customer_cap
-  .field
-    = f.label :table_number
-    = f.number_field :table_number
-  .field
-    = f.label :restaurant
-    = f.text_field :restaurant
-  .actions
-    = f.submit 'Save'
+  .form-inputs
+    = f.input :customer_cap
+    = f.input :table_number
+    = f.association :restaurant
+
+  .form-actions
+    = f.button :submit, 'Create',class:"btn btn-primary mt-2"
+

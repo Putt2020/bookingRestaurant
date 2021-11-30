@@ -1,16 +1,11 @@
-= form_for @favorite do |f|
-  - if @favorite.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@favorite.errors.count, "error")} prohibited this favorite from being saved:"
-      %ul
-        - @favorite.errors.full_messages.each do |message|
-          %li= message
+-# frozen_string_literal: true
+= simple_form_for(@favorite) do |f|
+  = f.error_notification
+  = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
-  .field
-    = f.label :user
-    = f.text_field :user
-  .field
-    = f.label :restaurant
-    = f.text_field :restaurant
-  .actions
-    = f.submit 'Save'
+  .form-inputs
+    = f.association :user, :value => @user.id
+    = f.association :restaurant, :value => @restaurant.id
+
+  .form-actions
+    = f.button :submit, 'Create',class:"btn btn-primary mt-2"
