@@ -27,9 +27,9 @@
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
   .form-inputs
-    = f.association :user, :value => @user.id
-    = f.association :table, :value => @table.id
-    = f.input :start_time, :value => DateTime.current
+    = f.association :user
+    = f.association :table
+    = f.input :start_time
     = f.input :people_amount
 
   .form-actions

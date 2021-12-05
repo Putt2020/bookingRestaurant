@@ -4,6 +4,17 @@ Rails.application.routes.draw do
   post 'main', to: 'users#pmain'
   get 'register', to: 'users#register'
   post 'register', to: 'users#regis'
+  get 'home', to: 'users#home'
+  get 'editProfile', to: 'users#editProfile'
+  patch 'editProfile', to: 'users#editPatchProfile'
+  get 'favorite', to: 'favorites#fav'
+  delete 'fav/:favID', to: 'favorites#deleteFav'
+  get 'restaurantList', to: 'restaurants#resList'
+  get 'restaurant/:name', to: 'restaurants#resList'
+  get 'appointment/:name', to: 'appointments#appoint'
+  get 'rate/:name', to: 'rates#appoint'
+  get 'comment/:name', to: 'comments#appoint'
+
   resources :likes
   resources :comments
   resources :favorites

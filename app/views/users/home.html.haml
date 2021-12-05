@@ -1,0 +1,28 @@
+%body
+	.row
+		.col.mt-3
+			.row
+				Your name : 
+				=@user.name
+			.mt-3
+				%a.btn.btn-info{ :href => editProfile_path } edit profile
+		.col
+			%h2.mt-2 Show appointment
+			-getAppointment
+			-if @userApp
+				-@userApp.each do |app|
+					-tableToRestaurant(app.table_id)
+					#ayaya.border.rounded-1000.border-dark.mt-4.bg-secondary.bg-opacity-25.justify-content-center
+						.row
+							.col
+								@table
+							.col
+								app.start_time
+						.row
+							app.created_at
+			-else
+				%p There is no appointment.
+				
+
+
+    

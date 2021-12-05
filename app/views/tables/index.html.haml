@@ -1,6 +1,6 @@
 %h1 Listing tables
 
-%table
+%table#favTable.display{:style => "width:100%"}
   %thead
     %tr
       %th Customer cap
@@ -23,3 +23,13 @@
 %br
 
 = link_to 'New Table', new_table_path
+
+:javascript
+  console.log($('#favTable'));
+  $(document).ready(function() {
+    $('#favTable').DataTable( {
+        "scrollY":        "50vh",
+        "scrollCollapse": true,
+        "paging":         false
+    } );
+  });

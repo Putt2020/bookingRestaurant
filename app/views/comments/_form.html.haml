@@ -5,8 +5,8 @@
 
   .form-inputs
     = f.input :msg
-    = f.association :user, :value => @user.id
-    = f.association :restaurant, :value => @restaurant.id
+    = f.association :user
+    = f.association :restaurant
 
   .form-actions
     = f.button :submit, 'Create',class:"btn btn-primary mt-2"

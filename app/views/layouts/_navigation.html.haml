@@ -1,0 +1,28 @@
+%nav.navbar.navbar-expand-lg.navbar-light.bg-light
+  .container-fluid
+    %a.navbar-brand{:href => "#"} Navbar
+    %button.navbar-toggler{"aria-controls" => "navbarSupportedContent", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-bs-target" => "#navbarSupportedContent", "data-bs-toggle" => "collapse", :type => "button"}
+      %span.navbar-toggler-icon
+    #navbarSupportedContent.collapse.navbar-collapse
+      %ul.navbar-nav.me-auto.mb-2.mb-lg-0
+        -if session[:user_id]
+          %li.nav-item
+            %a.nav-link.active{"aria-current" => "page", :href => home_path} Home
+          %li.nav-item
+            %a.nav-link.active{"aria-current" => "page", :href => main_path} Favorite
+          %li.nav-item
+            %a.nav-link.active{"aria-current" => "page", :href => main_path} See restaurant
+          %li.nav-item
+            %a.nav-link.active{"aria-current" => "page", :href => main_path} Logout
+        -else
+          %li.nav-item
+            %a.nav-link.disabled{"aria-current" => "page", :href => home_path} Home
+          %li.nav-item
+            %a.nav-link.disabled{"aria-current" => "page", :href => main_path} Favorite
+          %li.nav-item
+            %a.nav-link.disabled{"aria-current" => "page", :href => main_path} See restaurant
+          %li.nav-item
+            %a.nav-link.disabled{"aria-current" => "page", :href => main_path} Logout
+      %form.d-flex
+        %input.form-control.me-2{"aria-label" => "Search", :placeholder => "Search", :type => "search"}/
+        %button.btn.btn-outline-success{:type => "submit"} Search

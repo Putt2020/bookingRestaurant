@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
-  #before_action :logged_in, except: %i[ main register ]
+  before_action :logged_in, only: %i[ home editProfile editPatchProfile ]
 
   # GET /users or /users.json
   def index
@@ -62,11 +62,6 @@ class UsersController < ApplicationController
     session[:user_id] = nil
   end
 
-  def logout
-    session[:user_id] = nil
-    redirect_to main_path
-  end
-
   #post /main
   def pmain
     #logging = params[:commit]
@@ -75,7 +70,7 @@ class UsersController < ApplicationController
     if @user && @user.authenticate(params[:user][:password]) #@user -> check is it null
       loginSuccess = true
       session[:user_id] = @user.id # cookie
-      redirect_to '/users'
+      redirect_to home_path
     end
     if !loginSuccess && params[:commit] == "Login"
       redirect_to '/main', notice: "Either email or password is incorrect :)"
@@ -94,7 +89,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         session[:user_id] = @user.id
-        format.html { redirect_to '/users', notice: "User was successfully created." }
+        format.html { redirect_to home_path, notice: "User was successfully created." }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :register, status: :unprocessable_entity }
@@ -102,6 +97,31 @@ class UsersController < ApplicationController
       end
     end
   end
+
+  def home
+    @user = User.find_by(id: session[:user_id])
+  end
+
+  def editProfile
+    @user = User.find_by(id: session[:user_id])
+  end
+
+  def editPatchProfile
+    @user = User.find_by(id: session[:user_id])
+    params[:user].delete(:password) if params[:user][:password].blank?
+    respond_to do |format|
+      if @user.update(name: params[:user][:name])
+        format.html { redirect_to home_path, notice: "User was successfully updated." }
+        format.json { render :show, status: :ok, location: @user }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
@@ -112,6 +132,7 @@ class UsersController < ApplicationController
     # Check user login
     def logged_in
       if(session[:user_id])
+        @user = User.find_by(id: session[:user_id])
         return true
       else
         redirect_to main_path, notice: "you did not login"

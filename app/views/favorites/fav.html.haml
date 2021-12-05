@@ -1,0 +1,46 @@
+%head
+  :css
+    body {
+      background-image: url("https://images.adsttc.com/media/images/5e4c/1025/6ee6/7e0b/9d00/0877/large_jpg/feature_-_Main_hall_1.jpg?1582043123");
+      background-color: #ffe4c4;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+    .mainContent {
+      background-color: #ffffff;
+      margin-top: 20px;
+      padding: 40px;
+      width: 80%;
+      max-width: 750px;
+    }
+
+%body
+  .mainContent.mx-auto
+    %table#favTable.display{:style => "width:100%"}
+      %thead
+        %tr
+          %th Restaurant
+          %th max_table
+          %th goto
+          %th remove
+
+
+      %tbody
+        - getMaxTable
+        - allFav.each do |fav|
+          %tr
+            %td= fav.restaurant.name
+            %td= @tabCount[fav.restaurant_id]
+            %td= link_to "visit #{fav.restaurant.name}", "restaurant/#{fav.restaurant.name}"
+            %td= link_to 'Remove', "fav/#{fav.id}", method: :delete, data: { confirm: 'Are you sure?' }
+
+:javascript
+  console.log($('#favTable'));
+  $(document).ready(function() {
+    $('#favTable').DataTable( {
+        "scrollY":        "50vh",
+        "scrollCollapse": true,
+        "paging":         false
+    } );
+  });
+      

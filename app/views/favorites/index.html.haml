@@ -12,8 +12,8 @@
   %tbody
     - @favorites.each do |favorite|
       %tr
-        %td= favorite.user
-        %td= favorite.restaurant
+        %td= favorite.user.name
+        %td= favorite.restaurant.name
         %td= link_to 'Show', favorite
         %td= link_to 'Edit', edit_favorite_path(favorite)
         %td= link_to 'Destroy', favorite, method: :delete, data: { confirm: 'Are you sure?' }

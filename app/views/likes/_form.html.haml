@@ -5,8 +5,8 @@
 
   .form-inputs
     = f.input :like_tag
-    = f.association :user, :value => @user.id
-    = f.association :comment, :value => @comment.id
+    = f.association :user
+    = f.association :comment
 
   .form-actions
     = f.button :submit, 'Create',class:"btn btn-primary mt-2"
