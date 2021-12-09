@@ -65,6 +65,29 @@ class RatesTest < ApplicationSystemTestCase
     assert_text "#{@rest3.name} (rating 4.0)"
   end
 
+  test "blank rate value" do
+    visit main_path
+
+    fill_in "Email", with: @user3.email
+    fill_in "Password", with: "three"
+
+    click_on "Login"
+
+    click_on "See restaurants"
+
+    click_on "visit #{@rest3.name}"
+
+    assert_text "#{@rest3.name} (rating 0)"
+
+    click_on "rate"
+
+    page.accept_confirm do
+      click_on "Rate"
+    end
+
+    assert_text "Rate score out of range(0-5) and Rate score only integer allow"
+  end
+
   # test "visiting the index" do
   #   visit rates_url
   #   assert_selector "h1", text: "Rates"

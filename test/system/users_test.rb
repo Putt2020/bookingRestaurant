@@ -7,7 +7,7 @@ class UsersTest < ApplicationSystemTestCase
     @rest1 = restaurants(:one)
   end
 
-  test "register" do
+  test "register success" do
     visit main_url
     click_on "register"
 
@@ -85,7 +85,7 @@ class UsersTest < ApplicationSystemTestCase
     assert_text "you did not login"
   end
 
-  test "edit profile" do
+  test "edit profile success" do
     visit main_path
 
     fill_in "Email", with: @user1.email
@@ -101,10 +101,21 @@ class UsersTest < ApplicationSystemTestCase
     assert_text "Your name : abcde"
   end
 
+  test "edit profile fail" do
+    visit main_path
 
+    fill_in "Email", with: @user1.email
+    fill_in "Password", with: "one"
 
+    click_on "Login"
+    click_on "edit profile"
 
+    fill_in "Name", with: ""
 
+    click_on "Edit Account"
+
+    assert_text "Name can't be blank"
+  end
 
 
   # test "visiting the index" do

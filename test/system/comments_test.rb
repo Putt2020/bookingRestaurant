@@ -40,6 +40,25 @@ class CommentsTest < ApplicationSystemTestCase
     assert_text "Comment was successfully destroyed."
   end
 
+  test "comment cant be blank" do
+    visit main_path
+
+    fill_in "Email", with: @user3.email
+    fill_in "Password", with: "three"
+
+    click_on "Login"
+
+    click_on "See restaurants"
+
+    click_on "visit #{@rest3.name}"
+
+    click_on "comment"
+
+    click_on "Comment"
+
+    assert_text "Msg can't be blank"
+  end
+
 
   # test "visiting the index" do
   #   visit comments_url
