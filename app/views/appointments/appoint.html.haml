@@ -1,0 +1,80 @@
+%head
+  :css
+    body {
+      background-image: url("https://images.adsttc.com/media/images/5e4c/1025/6ee6/7e0b/9d00/0877/large_jpg/feature_-_Main_hall_1.jpg?1582043123");
+      background-color: #ffe4c4;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+    .mainContent {
+      background-color: #ffffff;
+      margin-top: 20px;
+      padding: 40px;
+      width: 80%;
+      max-width: 1000px;
+    }
+
+%body
+  .mainContent.mx-auto
+    %p#notice.text-success= notice
+    %h2= "#{@restau.name}"
+    %table#resTable.display{:style => "width:100%"}
+      %thead
+        %tr
+          %th Table NO.
+          %th Capacity
+          %th 10:00
+          %th 12:00
+          %th 14:00
+          %th 16:00
+          %th 18:00
+          %th 20:00
+
+
+      %tbody
+        - getAllTableInRest(@restau.id).each do |tab|
+          - getAvailableTime(tab.id)
+          %tr
+            %td= tab.table_number
+            %td= tab.customer_cap
+            %td= @at10 ? "No" : "Yes"
+            %td= @at12 ? "No" : "Yes"
+            %td= @at14 ? "No" : "Yes"
+            %td= @at16 ? "No" : "Yes"
+            %td= @at18 ? "No" : "Yes"
+            %td= @at20 ? "No" : "Yes"
+    -getTableRange(@restau.id)
+    -if @appointable
+      = simple_form_for @appointment, url: "/appointment/#{@restau.name}", method: :post do |f|
+        = f.error_notification
+        = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+        .form-inputs
+          .row.mt-3
+            .col-sm-4.col-md-4.col-lg-3.col-xl-3
+              
+              = f.input :table_number, label: 'Table number', collection: @r
+            .col-sm-4.col-md-4.col-lg-3.col-xl-3
+              = f.input :start_time, label: 'Time', collection: %w[10:00 12:00 14:00 16:00 18:00 20:00]
+            .col-sm-4.col-md-4
+              = f.input :people_amount, label: 'People amount'
+
+        .row
+          .col-sm-8.col-md-6.col-lg-4.col-xl-3.mt-2 
+            .form-actions
+              = f.button :submit, 'Confirm', class:"btn btn-primary mt-2", data: { confirm: "You are booking for #{@restau.name}'s' table." }
+          .col.mt-2
+            = link_to 'Back', "/restaurant/#{@restau.name}", class:"btn btn-outline-primary mt-2"
+    -else
+      = link_to 'Back', "/restaurant/#{@restau.name}", class:"btn btn-outline-primary mt-2"       
+
+:javascript
+  console.log($('#resTable'));
+  $(document).ready(function() {
+    $('#resTable').DataTable( {
+        "scrollY":        "50vh",
+        "scrollCollapse": true,
+        "paging":         false
+    } );
+  });
+      

@@ -110,11 +110,11 @@ class UsersController < ApplicationController
     @user = User.find_by(id: session[:user_id])
     params[:user].delete(:password) if params[:user][:password].blank?
     respond_to do |format|
-      if @user.update(name: params[:user][:name])
-        format.html { redirect_to home_path, notice: "User was successfully updated." }
+      if @user.update(email: @user.email, name: params[:user][:name])
+        format.html { redirect_to home_path, notice: "User's name was successfully updated." }
         format.json { render :show, status: :ok, location: @user }
       else
-        format.html { render :edit, status: :unprocessable_entity }
+        format.html { render :editProfile, status: :unprocessable_entity }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end

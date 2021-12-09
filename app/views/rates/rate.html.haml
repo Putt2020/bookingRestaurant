@@ -1,0 +1,51 @@
+%head
+  :css
+    body {
+      background-image: url("https://images.adsttc.com/media/images/5e4c/1025/6ee6/7e0b/9d00/0877/large_jpg/feature_-_Main_hall_1.jpg?1582043123");
+      background-color: #ffe4c4;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+    .mainContent {
+      background-color: #ffffff;
+      margin-top: 20px;
+      padding: 40px;
+      width: 80%;
+      max-width: 1000px;
+    }
+
+%body
+  .mainContent.mx-auto
+    %h2= "Rating for #{@restau.name}"
+    -if @rated
+      = simple_form_for @rate, url: "/rate/#{@restau.name}", method: :patch do |f|
+        = f.error_notification
+        = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+        .form-inputs
+          .row.mt-3
+            .col-sm-4.col-md-4.col-lg-3.col-xl-3
+              = f.input :rate_score, label: 'Your score(0-5)', collection: 0..5
+
+        .row
+          .col-sm-8.col-md-6.col-lg-4.col-xl-3.mt-2 
+            .form-actions
+              = f.button :submit, 'Rate', class:"btn btn-primary mt-2", data: { confirm: "You are rating for #{@restau.name}." }
+          .col.mt-2
+            = link_to 'Back', "/restaurant/#{@restau.name}", class:"btn btn-outline-primary mt-2"
+    -else
+      = simple_form_for @rate, url: "/rate/#{@restau.name}", method: :post do |f|
+        = f.error_notification
+        = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
+
+        .form-inputs
+          .row.mt-3
+            .col-sm-4.col-md-4.col-lg-3.col-xl-3
+              = f.input :rate_score, label: 'Your score(0-5)', collection: 0..5
+
+        .row
+          .col-sm-8.col-md-6.col-lg-4.col-xl-3.mt-2 
+            .form-actions
+              = f.button :submit, 'Rate', class:"btn btn-primary mt-2", data: { confirm: "You are rating for #{@restau.name}." }
+          .col.mt-2
+            = link_to 'Back', "/restaurant/#{@restau.name}", class:"btn btn-outline-primary mt-2" 

@@ -1,5 +1,6 @@
 class LikesController < ApplicationController
   before_action :set_like, only: %i[ show edit update destroy ]
+  before_action :logged_in, only: %i[ cLike pLike dLike ]
 
   # GET /likes or /likes.json
   def index
@@ -56,10 +57,61 @@ class LikesController < ApplicationController
     end
   end
 
+  # Post
+  def cLike
+    @like = Like.new({like_tag: params[:like_tag], user_id: session[:user_id], comment_id: params[:commentID]})
+
+    respond_to do |format|
+      if @like.save
+        format.html { redirect_to "/restaurant/#{params[:name]}", notice: "You just like or dislike a comment." }
+        format.json { render :show, status: :created, location: @like }
+      else
+        format.html { redirect_to "/restaurant/#{params[:name]}", notice: "You fail to like or dislike a comment." }
+        format.json { render json: @like.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # Patch
+  def pLike
+    @like = Like.find_by(user_id: session[:user_id], comment_id: params[:commentID])
+
+    respond_to do |format|
+      if @like.update(like_tag: params[:like_tag], user_id: session[:user_id], comment_id: params[:commentID])
+        format.html { redirect_to "/restaurant/#{params[:name]}", notice: "You just like or dislike a comment." }
+        format.json { render :show, status: :ok, location: @like }
+      else
+        format.html { redirect_to "/restaurant/#{params[:name]}", notice: "You fail to like or dislike a comment." }
+        format.json { render json: @like.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # Delete
+  def dLike
+    @like = Like.find_by(user_id: session[:user_id], comment_id: params[:commentID])
+
+    @like.destroy
+    respond_to do |format|
+      format.html { redirect_to "/restaurant/#{params[:name]}", notice: "You just unlike or undislike a comment." }
+      format.json { head :no_content }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_like
       @like = Like.find(params[:id])
+    end
+
+    # Check user login
+    def logged_in
+      if(session[:user_id])
+        @user = User.find_by(id: session[:user_id])
+        return true
+      else
+        redirect_to main_path, notice: "you did not login"
+      end
     end
 
     # Only allow a list of trusted parameters through.

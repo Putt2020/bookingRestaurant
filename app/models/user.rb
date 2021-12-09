@@ -1,6 +1,6 @@
 class User < ApplicationRecord
 	has_many :appointments
-	has_many :comments
+	has_many :comments, dependent: :destroy
 	has_many :favorites
 	has_many :rates
 	has_many :likes

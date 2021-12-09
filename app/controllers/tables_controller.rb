@@ -62,6 +62,16 @@ class TablesController < ApplicationController
       @table = Table.find(params[:id])
     end
 
+    # Check user login
+    def logged_in
+      if(session[:user_id])
+        @user = User.find_by(id: session[:user_id])
+        return true
+      else
+        redirect_to main_path, notice: "you did not login"
+      end
+    end
+
     # Only allow a list of trusted parameters through.
     def table_params
       params.require(:table).permit(:customer_cap, :table_number, :restaurant_id)

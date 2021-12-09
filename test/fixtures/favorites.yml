@@ -7,3 +7,16 @@ one:
 two:
   user: two
   restaurant: two
+
+three:
+  user: one
+  restaurant: three
+
+four:
+  user: two
+  restaurant: one
+
+five:
+  user: one
+  restaurant: two
+

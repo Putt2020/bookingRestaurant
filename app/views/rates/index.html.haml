@@ -14,8 +14,8 @@
     - @rates.each do |rate|
       %tr
         %td= rate.rate_score
-        %td= rate.user
-        %td= rate.restaurant
+        %td= rate.user.name
+        %td= rate.restaurant.name
         %td= link_to 'Show', rate
         %td= link_to 'Edit', edit_rate_path(rate)
         %td= link_to 'Destroy', rate, method: :delete, data: { confirm: 'Are you sure?' }

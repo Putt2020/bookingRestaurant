@@ -1,5 +1,6 @@
 class RatesController < ApplicationController
   before_action :set_rate, only: %i[ show edit update destroy ]
+  before_action :logged_in, only: %i[ rate cRate pRate ]
 
   # GET /rates or /rates.json
   def index
@@ -56,10 +57,58 @@ class RatesController < ApplicationController
     end
   end
 
+  def rate
+    @restau = Restaurant.find_by(name: params[:name])
+    @rate = Rate.new
+    @rated = Rate.find_by(user_id: @user.id, restaurant_id: @restau.id)
+  end
+
+  def cRate
+    score = params[:rate][:rate_score]
+    @restau = Restaurant.find_by(name: params[:name])
+    @rate = Rate.new({user_id: @user.id, restaurant_id: @restau.id, rate_score: score})
+
+    respond_to do |format|
+      if @rate.save
+        format.html { redirect_to "/restaurant/#{@restau.name}", notice: "Rate was successfully created." }
+        format.json { render :show, status: :created, location: @rate }
+      else
+        format.html { render :rate, status: :unprocessable_entity }
+        format.json { render json: @rate.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def pRate
+    score = params[:rate][:rate_score]
+    @restau = Restaurant.find_by(name: params[:name])
+    @rate = Rate.find_by(user_id: @user.id, restaurant_id: @restau.id)
+
+    respond_to do |format|
+      if @rate.update({user_id: @user.id, restaurant_id: @restau.id, rate_score: score})
+        format.html { redirect_to "/restaurant/#{@restau.name}", notice: "Rate was successfully updated." }
+        format.json { render :show, status: :ok, location: @rate }
+      else
+        format.html { render :rate, status: :unprocessable_entity }
+        format.json { render json: @rate.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_rate
       @rate = Rate.find(params[:id])
+    end
+
+    # Check user login
+    def logged_in
+      if(session[:user_id])
+        @user = User.find_by(id: session[:user_id])
+        return true
+      else
+        redirect_to main_path, notice: "you did not login"
+      end
     end
 
     # Only allow a list of trusted parameters through.

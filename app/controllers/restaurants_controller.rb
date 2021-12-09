@@ -1,5 +1,6 @@
 class RestaurantsController < ApplicationController
   before_action :set_restaurant, only: %i[ show edit update destroy ]
+  before_action :logged_in, only: %i[ resList restau ]
 
   # GET /restaurants or /restaurants.json
   def index
@@ -56,10 +57,30 @@ class RestaurantsController < ApplicationController
     end
   end
 
+  def resList
+
+  end
+
+  def restau
+    @restau = Restaurant.find_by(name: params[:name])
+  end
+
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_restaurant
       @restaurant = Restaurant.find(params[:id])
+    end
+
+    # Check user login
+    def logged_in
+      if(session[:user_id])
+        @user = User.find_by(id: session[:user_id])
+        return true
+      else
+        redirect_to main_path, notice: "you did not login"
+      end
     end
 
     # Only allow a list of trusted parameters through.

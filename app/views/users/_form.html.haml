@@ -1,12 +1,22 @@
 -# frozen_string_literal: true
-= simple_form_for(@user) do |f|
+= simple_form_for @user, url: "/editProfile" do |f|
   = f.error_notification
   = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
   .form-inputs
-    = f.input :email
-    = f.input :name
-    = f.input :password_digest
+    .row.mt-2
+      .col-sm-12.col-md-8.col-lg-6.col-xl-5
+        = f.input :email
+    .row.mt-2
+      .col-sm-12.col-md-8.col-lg-6.col-xl-5
+        = f.input :name
+    .row.mt-2
+      .col-sm-12.col-md-8.col-lg-6.col-xl-5
+        = f.input :password_digest
 
-  .form-actions
-    = f.button :submit
+  .row
+    .col-sm-8.col-md-6.col-lg-5.col-xl-4.mt-2 
+      .form-actions
+        = f.button :submit, 'Edit Account', class:"btn btn-primary mt-2"
+    .col.mt-2
+      = link_to 'Cancel', '/home', class:"btn btn-primary mt-2"

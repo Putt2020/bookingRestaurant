@@ -13,3 +13,26 @@
  *= require_tree .
  *= require_self
  */
+
+body {
+  background-image: url("https://images.adsttc.com/media/images/5e4c/1025/6ee6/7e0b/9d00/0877/large_jpg/feature_-_Main_hall_1.jpg?1582043123");
+  background-color: #ffe4c4;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.mainContent {
+  background-color: #ffffff;
+  margin-top: 20px;
+  padding: 30px;
+  width: 90%;
+  max-width: 1000px;
+}
+.commentt {
+  border-width: 3px;
+  background-color: lightblue;
+}
+#sperator {
+  margin-left: 30px;
+  border-right: 3px solid;
+  border-color: #A9A9A9;
+}

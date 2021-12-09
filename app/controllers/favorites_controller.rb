@@ -1,6 +1,6 @@
 class FavoritesController < ApplicationController
   before_action :set_favorite, only: %i[ show edit update destroy ]
-  before_action :logged_in, only: %i[ fav ]
+  before_action :logged_in, only: %i[ fav deleteFavFromRestPage createFavFromRestPage deleteFavFromFavPage ]
 
   # GET /favorites or /favorites.json
   def index
@@ -61,11 +61,38 @@ class FavoritesController < ApplicationController
 
   end
 
-  def deleteFav
+  # Delete
+  def deleteFavFromFavPage
     @favor = Favorite.find_by(id: params[:favID])
     @favor.destroy
     respond_to do |format|
       format.html { redirect_to favorite_path }
+      format.json { head :no_content }
+    end
+  end
+
+  # Post
+  def createFavFromRestPage 
+    rest = Restaurant.find_by(id: params[:restID]).name
+    @favor = Favorite.new({user_id: session[:user_id], restaurant_id: params[:restID]})
+
+    respond_to do |format|
+      if @favor.save
+        format.html { redirect_to "/restaurant/#{rest}", notice: "You just favorite #{rest}." }
+        format.json { render :show, status: :created, location: @follow }
+      else
+        format.html { redirect_to "/restaurant/#{rest}", notice: "Fail to follow #{rest}." }
+        format.json { render json: @follow.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # Delete
+  def deleteFavFromRestPage 
+    @favor = Favorite.find_by(user_id: session[:user_id], restaurant_id: Restaurant.find_by(name: params[:name]).id)
+    @favor.destroy
+    respond_to do |format|
+      format.html { redirect_to "/restaurant/#{params[:name]}", notice: "You just unfavorite #{params[:name]}." }
       format.json { head :no_content }
     end
   end

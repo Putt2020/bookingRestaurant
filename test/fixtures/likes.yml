@@ -1,11 +1,26 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  like_tag: false
+  like_tag: true
   user: one
   comment: one
 
 two:
+  like_tag: true
+  user: one
+  comment: two
+
+three:
   like_tag: false
   user: two
+  comment: one
+
+four:
+  like_tag: true
+  user: three
+  comment: one
+
+five:
+  like_tag: true
+  user: three
   comment: two

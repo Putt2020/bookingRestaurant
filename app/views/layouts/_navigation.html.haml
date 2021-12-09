@@ -9,18 +9,18 @@
           %li.nav-item
             %a.nav-link.active{"aria-current" => "page", :href => home_path} Home
           %li.nav-item
-            %a.nav-link.active{"aria-current" => "page", :href => main_path} Favorite
+            %a.nav-link.active{"aria-current" => "page", :href => favorite_path} See favorites
           %li.nav-item
-            %a.nav-link.active{"aria-current" => "page", :href => main_path} See restaurant
+            %a.nav-link.active{"aria-current" => "page", :href => restaurantList_path} See restaurants
           %li.nav-item
             %a.nav-link.active{"aria-current" => "page", :href => main_path} Logout
         -else
           %li.nav-item
             %a.nav-link.disabled{"aria-current" => "page", :href => home_path} Home
           %li.nav-item
-            %a.nav-link.disabled{"aria-current" => "page", :href => main_path} Favorite
+            %a.nav-link.disabled{"aria-current" => "page", :href => favorite_path} See favorites
           %li.nav-item
-            %a.nav-link.disabled{"aria-current" => "page", :href => main_path} See restaurant
+            %a.nav-link.disabled{"aria-current" => "page", :href => restaurantList_path} See restaurants
           %li.nav-item
             %a.nav-link.disabled{"aria-current" => "page", :href => main_path} Logout
       %form.d-flex

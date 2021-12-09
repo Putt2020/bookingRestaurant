@@ -1,28 +1,62 @@
+%head
+  :css
+    body {
+      background-image: url("https://images.adsttc.com/media/images/5e4c/1025/6ee6/7e0b/9d00/0877/large_jpg/feature_-_Main_hall_1.jpg?1582043123");
+      background-color: #ffe4c4;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+    .mainContent {
+      background-color: #ffffff;
+      margin-top: 20px;
+      padding: 30px;
+      width: 90%;
+      max-width: 1000px;
+    }
+    .commentt {
+      border-width: 3px;
+      background-color: lightblue;
+    }
+    #sperator {
+      margin-left: 30px;
+      border-right: 3px solid;
+      border-color: #A9A9A9;
+    }
+
 %body
-	.row
-		.col.mt-3
-			.row
-				Your name : 
-				=@user.name
-			.mt-3
-				%a.btn.btn-info{ :href => editProfile_path } edit profile
-		.col
-			%h2.mt-2 Show appointment
-			-getAppointment
-			-if @userApp
-				-@userApp.each do |app|
-					-tableToRestaurant(app.table_id)
-					#ayaya.border.rounded-1000.border-dark.mt-4.bg-secondary.bg-opacity-25.justify-content-center
-						.row
-							.col
-								@table
-							.col
-								app.start_time
-						.row
-							app.created_at
-			-else
-				%p There is no appointment.
-				
-
-
-    
+  .mainContent.mx-auto
+    %p#notice.text-success= notice
+    .row
+      .col-sm-4.col-md-3.col-lg-2.mt-3#sperator
+        .row.px-2
+          Your name : 
+          =@user.name
+        .mt-3
+          %a.btn.btn-info{ :href => editProfile_path } edit profile
+      .col.px-5
+        %h2.mt-2 Show appointment
+        -getAppointment
+        -if !@userApp.empty?
+          -@userApp.each do |app|
+            -tableToRestaurant(app.table_id)
+            .commentt.p-2.m-3.justify-content-center
+              .row
+                .col-md-5.col-sm-5.col-lg-5.col-xl-4.px-4
+                  Restaurant: 
+                  =@table
+                .col
+                  start time: 
+                  =app.start_time
+              .row.ml-2
+                .col-sm-4.col-md-4.col-lg-4.col-xl-4.px-4
+                  Table number: 
+                  =app.table.table_number
+                .col-sm-4.col-md-5.col-lg-5.col-xl-5.px-4
+                  =app.people_amount
+                  peoples
+                .col
+                  %a{"data-confirm" => "Are you sure?", "data-method" => "delete", :href => "/dappointment/#{app.id}"}
+                    %img{:alt => "HTML tutorial", :src => "https://img.freepik.com/free-icon/trash-bin-symbol_318-10194.jpg?size=338&ext=jpg", :id => "del#{app.people_amount}", :style => "width:30px;height:30px;"}/
+                  /= link_to "___", "/dappointment/#{app.id}", class:"buttImage", method: :delete, data: { confirm: 'Are you sure?' }
+        -else
+          %p There is no appointment.

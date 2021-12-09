@@ -16,25 +16,19 @@
 
 %body
   .mainContent.mx-auto
-    %h1 Edit Profile
-
-    -# frozen_string_literal: true
-    = simple_form_for @user, url: "/editProfile", method: :patch do |f|
+    %h2= @restau.name
+    = simple_form_for @comment, url: "/comment/#{@restau.name}", method: :post do |f|
       = f.error_notification
       = f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present?
 
       .form-inputs
-        .row.mt-2
-          .col-sm-12.col-md-8.col-lg-6.col-xl-5
-            = f.input :name
+        .row.mt-3
+          .col-sm-10.col-md-9.col-lg-7.col-xl-6
+            = f.input :msg, label: 'Write your comment'
 
       .row
-        .col-sm-8.col-md-6.col-lg-5.col-xl-4.mt-2 
+        .col-sm-8.col-md-6.col-lg-4.col-xl-3.mt-2 
           .form-actions
-            = f.button :submit, 'Edit Account', class:"btn btn-primary mt-2"
+            = f.button :submit, 'Comment', class:"btn btn-primary mt-2"
         .col.mt-2
-          = link_to 'Cancel', '/home', class:"btn btn-primary mt-2"
-				
-
-
-    
+          = link_to 'Back', "/restaurant/#{@restau.name}", class:"btn btn-outline-primary mt-2"

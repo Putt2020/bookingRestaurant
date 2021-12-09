@@ -14,8 +14,8 @@
   %tbody
     - @appointments.each do |appointment|
       %tr
-        %td= appointment.user
-        %td= appointment.table
+        %td= appointment.user.name
+        %td= appointment.table.id
         %td= appointment.start_time
         %td= appointment.people_amount
         %td= link_to 'Show', appointment

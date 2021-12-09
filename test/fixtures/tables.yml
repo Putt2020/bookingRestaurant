@@ -1,11 +1,47 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  customer_cap: 1
+  customer_cap: 6
   table_number: 1
   restaurant: one
 
 two:
-  customer_cap: 1
+  customer_cap: 4
   table_number: 1
   restaurant: two
+
+three:
+  customer_cap: 4
+  table_number: 1
+  restaurant: three
+
+four:
+  customer_cap: 4
+  table_number: 2
+  restaurant: one
+
+five:
+  customer_cap: 6
+  table_number: 2
+  restaurant: two
+
+six:
+  customer_cap: 4
+  table_number: 2
+  restaurant: three
+
+seven:
+  customer_cap: 2
+  table_number: 3
+  restaurant: one
+
+eight:
+  customer_cap: 4
+  table_number: 3
+  restaurant: two
+
+nine:
+  customer_cap: 6
+  table_number: 3
+  restaurant: three
+

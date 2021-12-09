@@ -1,0 +1,113 @@
+%head
+  :css
+    body {
+      background-image: url("https://images.adsttc.com/media/images/5e4c/1025/6ee6/7e0b/9d00/0877/large_jpg/feature_-_Main_hall_1.jpg?1582043123");
+      background-color: #ffe4c4;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+    .mainContent {
+      background-color: #ffffff;
+      margin-top: 20px;
+      padding: 30px;
+      width: 90%;
+      max-width: 1000px;
+    }
+    .commentt {
+      border-width: 3px;
+      background-color: lightblue;
+    }
+
+%body
+  .mainContent.mx-auto
+    -restRate
+    %p#notice.text-success= notice
+    %h2= "#{@restau.name} (rating #{@resRate[@restau.id].round(1)})"
+    .row
+      .col-md-8.col-sm-8.col-lg-8.col-xl-9.px-4
+        -allComment(@restau.id).each do |com|
+          .commentt.p-2.m-3
+            %span.p-2 msg: 
+            = com.msg
+            .row
+              .col-md-5.col-sm-6.col-lg-4.col-xl-3.px-4
+                by : 
+                = com.user.name
+              .col.px-4
+                at : 
+                = com.created_at
+            .row.mt-2
+              -didUserLike(com.id)
+              -getLikeAndDislike(com.id)
+              -if @likeState == 0
+                .col-md-3.col-sm-2.col-lg-2.col-xl-2.ps-4
+                  = simple_form_for :like, url: "/cLike/1/#{com.id}/#{@restau.name}", method: :post do |f|
+                    .form-actions
+                      = f.button :submit, 'Like', class:"btn btn-outline-primary btn-sm Like"
+                .col-md-3.col-sm-2.col-lg-2.col-xl-2.ps-4
+                  = simple_form_for :like, url: "/cLike/0/#{com.id}/#{@restau.name}", method: :post do |f|
+                    .form-actions
+                      = f.button :submit, 'Dislike', class:"btn btn-outline-danger btn-sm Dislike"
+              -elsif @likeState == 1
+                .col-md-3.col-sm-3.col-lg-2.col-xl-2.ps-3
+                  = simple_form_for :like, url: "/dLike/#{com.id}/#{@restau.name}", method: :delete do |f|
+                    .form-actions
+                      = f.button :submit, 'Unlike', class:"btn btn-outline-dark btn-sm Unlike"
+                .col-md-3.col-sm-3.col-lg-2.col-xl-2.ps-3
+                  = simple_form_for :like, url: "/pLike/0/#{com.id}/#{@restau.name}", method: :patch do |f|
+                    .form-actions
+                      = f.button :submit, 'Dislike', class:"btn btn-outline-danger btn-sm Dislike"
+              -else
+                .col-md-3.col-sm-3.col-lg-2.col-xl-2.ps-4
+                  = simple_form_for :like, url: "/pLike/1/#{com.id}/#{@restau.name}", method: :patch do |f|
+                    .form-actions
+                      = f.button :submit, 'Like', class:"btn btn-outline-primary btn-sm Like"
+                .col-md-3.col-sm-3.col-lg-2.col-xl-2.ps-4
+                  = simple_form_for :like, url: "/dLike/#{com.id}/#{@restau.name}", method: :delete do |f|
+                    .form-actions
+                      = f.button :submit, 'Undislike', class:"btn btn-outline-dark btn-sm Undislike"
+              .col.ps-4
+                total like: 
+                = [@likeCount[true] - @likeCount[false], 0].max
+              -if com.user.id == @user.id  
+                .col
+                  %a{"data-confirm" => "Are you sure?", "data-method" => "delete", :href => "/dcomment/#{com.id}/#{@restau.name}"}
+                    %img{:alt => "HTML tutorial", :src => "https://img.freepik.com/free-icon/trash-bin-symbol_318-10194.jpg?size=338&ext=jpg", :id => "del", :style => "width:30px;height:30px;"}/
+                /  = link_to "___", "/dcomment/#{com.id}/#{@restau.name}", class:"buttImage", method: :delete, data: { confirm: 'Are you sure?' }
+                                
+      .col
+        .row.mt-3
+          .col
+            -if didUserFav(@restau.id) #if user did not fav
+              = simple_form_for :favorite, url: "/cFav/#{@restau.id}", method: :post do |f|
+                .form-actions
+                  = f.button :submit, 'Favorite', class:"btn btn-outline-primary btn-lg"
+            -else
+              = simple_form_for :favorite, url: "/dFav/#{@restau.name}", method: :delete do |f|
+                .form-actions
+                  = f.button :submit, 'Unfavorite', class:"btn btn-outline-dark btn-lg"
+
+        .row.mt-3
+          .col
+            = link_to "appointment", "/appointment/#{@restau.name}", class:"btn btn-primary btn-lg"
+        .row.mt-3
+          .col
+            = link_to "rate", "/rate/#{@restau.name}", class:"btn btn-primary btn-lg"
+        .row.mt-3
+          .col
+            = link_to "comment", "/comment/#{@restau.name}", class:"btn btn-primary btn-lg"
+
+
+
+            
+
+:javascript
+  console.log($('#resTable'));
+  $(document).ready(function() {
+    $('#resTable').DataTable( {
+        "scrollY":        "50vh",
+        "scrollCollapse": true,
+        "paging":         false
+    } );
+  });
+      

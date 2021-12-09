@@ -16,29 +16,31 @@
 
 %body
   .mainContent.mx-auto
-    %h2 Your favorite restaurants
-    %table#favTable.display{:style => "width:100%"}
+    %h2 Restaurants
+    %table#resTable.display{:style => "width:100%"}
       %thead
         %tr
           %th Restaurant
           %th Max_table
+          %th Rate
           %th Go to
-          %th Remove
 
 
       %tbody
         - getMaxTable
-        - allFav.each do |fav|
-          %tr{class: "az#{fav.restaurant.name}"}
-            %td= fav.restaurant.name
-            %td= @tabCount[fav.restaurant_id]
-            %td= link_to "visit #{fav.restaurant.name}", "restaurant/#{fav.restaurant.name}", class:"btn btn-primary btn-sm goto"
-            %td= link_to 'Remove', "fav/#{fav.id}", class:"btn btn-primary btn-sm remove", method: :delete, data: { confirm: 'Are you sure?' }
+        - restRate
+        - allRest.each do |rest|
+          %tr
+            %td= rest.name
+            %td= @tabCount[rest.id]
+            %td= @resRate[rest.id].round(1)
+            %td= link_to "visit #{rest.name}", "restaurant/#{rest.name}", class:"btn btn-primary btn-sm"
+            
 
 :javascript
-  console.log($('#favTable'));
+  console.log($('#resTable'));
   $(document).ready(function() {
-    $('#favTable').DataTable( {
+    $('#resTable').DataTable( {
         "scrollY":        "50vh",
         "scrollCollapse": true,
         "paging":         false
