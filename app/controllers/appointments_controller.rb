@@ -64,8 +64,9 @@ class AppointmentsController < ApplicationController
 
   def cAppoint
     @restau = Restaurant.find_by(name: params[:name])
-    time = " ".concat(params[:appointment][:start_time])
+    time = " ".concat(params[:appointment][:start_time]).concat(":00 +0700")
     startTime = Date.today.to_s.concat(time).to_datetime
+    puts "========== #{startTime} ==========="
     ppl = params[:appointment][:people_amount].blank? ? 0 : params[:appointment][:people_amount]
     tab = params[:appointment][:table_number].blank? ? 0 : Table.find_by(table_number: params[:appointment][:table_number], restaurant_id: @restau.id).id
     #puts "===ppl : #{ppl}======== table : #{tab}========#{startTime}"
