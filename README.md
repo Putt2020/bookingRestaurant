@@ -1,24 +1,9 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This project is a practice and currently not that practical in the real world.
 
-Things you may want to cover:
+* Ruby version : 3.0.2
 
-* Ruby version
+* using rails 6.1.2++
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* System appointment test need to be execute before 20:00:00 UTC+7 or else it will throw and error
